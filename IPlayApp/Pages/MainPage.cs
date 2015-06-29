@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using IPlayApp.Models;
 using IPlayApp.Webservices;
 using Xamarin.Forms;
@@ -19,6 +20,7 @@ namespace IPlayApp.Pages
                 VerticalOptions = LayoutOptions.Start,
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
+
             var btnSettingsMenu = new Button
             {
                 Text = "Go To Settings",
@@ -26,15 +28,29 @@ namespace IPlayApp.Pages
                 VerticalOptions = LayoutOptions.End,
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
+
             //Events
             var ai = new ActivityIndicator { IsRunning = true, IsEnabled = true, BindingContext = this };
             ai.SetBinding(IsVisibleProperty, "IsBusy");
+
             btnMenuPage.Clicked += async (sender, e) =>
             {
-                IsBusy = true;
-                var serviceBusInit = await ServiceBusApi.Fetch();
-                await Navigation.PushModalAsync(new NavigationPage(new MenuPage(serviceBusInit.MenuItems)));
-                IsBusy = false;
+                try
+                {
+                    IsBusy = true;
+                    var serviceBusInit = await ServiceBusApi.Fetch();
+
+                    await Navigation.PushModalAsync(new NavigationPage(new MenuPage(serviceBusInit.MenuItems)));
+                }
+                catch (Exception)
+                {
+                    DisplayAlert("Fout", "Geen reactie van de server ontvangen. Controleer instellingen", "OK");
+                }
+                finally
+                {
+                    IsBusy = false;  
+                }
+
             };
 
             btnSettingsMenu.Clicked += (sender, e) => Navigation.PushModalAsync(new SettingsPage());

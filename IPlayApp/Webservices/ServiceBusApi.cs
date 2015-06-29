@@ -13,15 +13,29 @@ namespace IPlayApp.Webservices
     {
         public static async Task<Init> Fetch()
         {
-            var client = new RestClient(Application.Current.Properties["Url"] as string);
-            //var request = new RestRequest("test", HttpMethod.Get);
-            var request = new RestRequest(String.Format(Application.Current.Properties["Segment"].ToString(), Application.Current.Properties["Variables"].ToString().Split(',')), HttpMethod.Get);
-           
+            try
+            {
+                var client = new RestClient(Application.Current.Properties["Url"] as string);
+                //var request = new RestRequest("test", HttpMethod.Get);
+                var request = new RestRequest(String.Format(Application.Current.Properties["Segment"].ToString(), Application.Current.Properties["Variables"].ToString().Split(',')), HttpMethod.Get);
 
-            var result = await client.Execute(request);
-            var resultString = Encoding.UTF8.GetString(result.RawBytes, 0, result.RawBytes.Length);
-            var init = JsonConvert.DeserializeObject<Init>(resultString);
-            return init;
+
+                var result = await client.Execute(request);
+                if (result.IsSuccess)
+                {
+                    
+                var resultString = Encoding.UTF8.GetString(result.RawBytes, 0, result.RawBytes.Length);
+                var init = JsonConvert.DeserializeObject<Init>(resultString);
+                return init;
+                }
+                return null;
+
+            }
+            catch (Exception e)
+            {
+               return null;
+            }
+
         }
     }
 }

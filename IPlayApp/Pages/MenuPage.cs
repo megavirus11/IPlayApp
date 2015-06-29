@@ -16,14 +16,11 @@ namespace IPlayApp.Pages
         private Stopwatch stopwatch = new Stopwatch();
         public MenuPage(IEnumerable<Menu> menuItems)
         {
-
-            var sw = new Stopwatch();
-
-            sw.Start();
-            if (sw.ElapsedMilliseconds > 20)
+            Device.StartTimer(TimeSpan.FromSeconds(5), () =>
             {
-                Debug.WriteLine("AAAA");
-            }
+                Debug.WriteLine("test");
+                return false;
+            });
 
             NavigationPage.SetHasNavigationBar(this, false);
             _absoluteLayout = new AbsoluteLayout();
