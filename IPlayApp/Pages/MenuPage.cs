@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using IPlayApp.Class;
 using IPlayApp.Models;
@@ -10,10 +11,20 @@ namespace IPlayApp.Pages
     public class MenuPage : ContentPage
     {
         private const int Num = 2;
-        private readonly AbsoluteLayout _absoluteLayout;
-        private readonly StackLayout _stackLayout;
+        private AbsoluteLayout _absoluteLayout;
+        private StackLayout _stackLayout;
+        private Stopwatch stopwatch = new Stopwatch();
         public MenuPage(IEnumerable<Menu> menuItems)
         {
+
+            var sw = new Stopwatch();
+
+            sw.Start();
+            if (sw.ElapsedMilliseconds > 20)
+            {
+                Debug.WriteLine("AAAA");
+            }
+
             NavigationPage.SetHasNavigationBar(this, false);
             _absoluteLayout = new AbsoluteLayout();
             foreach (var menuItem in menuItems)
@@ -29,6 +40,7 @@ namespace IPlayApp.Pages
                     menuItemButton.Clicked +=
                         (sender, args) =>
                         {
+
                             CommunicationManager.GetInstance().AddData(item.Event);
                             Navigation.PushAsync(new MenuPage(item.ChildItems));
                         };
@@ -55,6 +67,7 @@ namespace IPlayApp.Pages
 
                 _absoluteLayout.Children.Add(menuItemButton);
             }
+            
             _stackLayout = new StackLayout
             {
                 Children =
@@ -161,6 +174,24 @@ namespace IPlayApp.Pages
                     row++;
                 }
             }
+        }
+
+        private void CheckTimer()
+        {
+            if (stopwatch.IsRunning)
+                stopwatch.Reset();
+            else
+                stopwatch.Start();
+        }
+
+        private bool TimerDone()
+        {
+            if (stopwatch.ElapsedMilliseconds > 1000)
+            {
+                Debug.WriteLine("1000 miliseconds");
+                return true;
+            }
+            return false;
         }
 
         protected override bool OnBackButtonPressed()

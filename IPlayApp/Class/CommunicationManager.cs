@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace IPlayApp.Class
 {
@@ -33,6 +34,16 @@ namespace IPlayApp.Class
                 if (items.Length > 0)
                     _data = String.Join(" ", items.Take(items.Length - 1));
             }
+        }
+
+        public void Timer()
+        {
+
+            Device.StartTimer(new TimeSpan(0, 0, 60), () =>
+            {
+                // do something every 60 seconds
+                return true; // runs again, or false to stop
+            });
         }
     }
 }

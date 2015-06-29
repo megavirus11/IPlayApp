@@ -17,13 +17,13 @@ namespace IPlayApp.Pages
                 Text = "Url",
             };
             var urlText = "";
-            if (Application.Current.Properties.ContainsKey("Url"))
+            if (Application.Current.Properties.ContainsKey("Url") && !string.IsNullOrEmpty(Application.Current.Properties["Url"].ToString()))
             {
                 urlText = Application.Current.Properties["Url"] as string;
             }
             else
             {
-                Application.Current.Properties["Segment"] = "http://92.222.119.2:8188/";
+                Application.Current.Properties["Url"] = "http://92.222.119.2:8188/";
                 urlText = "http://92.222.119.2:8188/";
             }
             var tbUrl = new Entry
@@ -36,7 +36,7 @@ namespace IPlayApp.Pages
                 IsVisible = false
             };
             var segmentText = "";
-            if (Application.Current.Properties.ContainsKey("Segment"))
+            if (Application.Current.Properties.ContainsKey("Segment") && !string.IsNullOrEmpty(Application.Current.Properties["Segment"].ToString()))
             {
                 segmentText = Application.Current.Properties["Segment"] as string;
             }
@@ -56,7 +56,7 @@ namespace IPlayApp.Pages
                 IsVisible = false
             };
             var variablesText = "";
-            if (Application.Current.Properties.ContainsKey("Variables"))
+            if (Application.Current.Properties.ContainsKey("Variables") && !string.IsNullOrEmpty(Application.Current.Properties["Variables"].ToString()))
             {
                 variablesText = Application.Current.Properties["Variables"] as string;
             }
