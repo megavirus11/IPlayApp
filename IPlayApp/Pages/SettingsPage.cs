@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace IPlayApp.Pages
 {
     class SettingsPage : ContentPage
     {
-        private Entry tbSegment;
-        private Entry tbVariables;
+        private readonly Entry _tbSegment;
+        private readonly Entry _tbVariables;
 
-        private Label labelSegment;
-        private Label labelVariables;
+        private readonly Label _labelSegment;
+        private readonly Label _labelVariables;
         public SettingsPage()
         {
             var labelUrl = new Label
@@ -25,11 +21,16 @@ namespace IPlayApp.Pages
             {
                 urlText = Application.Current.Properties["Url"] as string;
             }
+            else
+            {
+                Application.Current.Properties["Segment"] = "http://92.222.119.2:8188/";
+                urlText = "http://92.222.119.2:8188/";
+            }
             var tbUrl = new Entry
             {
                 Text = urlText
             };
-            labelSegment = new Label
+            _labelSegment = new Label
             {
                 Text = "Segment",
                 IsVisible = false
@@ -44,12 +45,12 @@ namespace IPlayApp.Pages
                 Application.Current.Properties["Segment"] = "api/Menu?deviceid={0}&userid={1}";
                 segmentText = "api/Menu?deviceid={0}&userid={1}";
             }
-            tbSegment = new Entry
+            _tbSegment = new Entry
             {
                 Text = segmentText,
                 IsVisible = false
             };
-            labelVariables = new Label
+            _labelVariables = new Label
             {
                 Text = "Variables",
                 IsVisible = false
@@ -64,19 +65,19 @@ namespace IPlayApp.Pages
                 Application.Current.Properties["Variables"] = "1,123";
                 variablesText = "1,123";
             }
-            tbVariables = new Entry
+            _tbVariables = new Entry
             {
                 Text = variablesText,
                 IsVisible = false
             };
             tbUrl.TextChanged += OnTextChangedUrl;
-            tbSegment.TextChanged += OnTextChangedSegment;
-            tbVariables.TextChanged += OnTextChangedVariables;
+            _tbSegment.TextChanged += OnTextChangedSegment;
+            _tbVariables.TextChanged += OnTextChangedVariables;
             var stackLayout = new StackLayout
             {
                 Children =
                 {
-                    labelUrl, tbUrl, labelSegment, tbSegment, labelVariables, tbVariables
+                    labelUrl, tbUrl, _labelSegment, _tbSegment, _labelVariables, _tbVariables
                 }
             };
             // And set that to the content of the page.
@@ -91,11 +92,11 @@ namespace IPlayApp.Pages
             Application.Current.SavePropertiesAsync();
             if (((Entry) sender).Text == "Admin Options Enable")
             {
-                tbSegment.IsVisible = true;
-                tbVariables.IsVisible = true;
+                _tbSegment.IsVisible = true;
+                _tbVariables.IsVisible = true;
 
-                labelSegment.IsVisible = true;
-                labelVariables.IsVisible = true;
+                _labelSegment.IsVisible = true;
+                _labelVariables.IsVisible = true;
             }
         }
         private void OnTextChangedSegment(object sender, EventArgs args)
