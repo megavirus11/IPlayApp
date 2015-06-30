@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using IPlayApp.Class;
 using IPlayApp.Models;
 using IPlayApp.Webservices;
 using Xamarin.Forms;

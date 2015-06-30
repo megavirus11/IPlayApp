@@ -10,7 +10,7 @@ namespace IPlayApp.Class
     {
         private static CommunicationManager _mInstance;
         private string _data;
-        private Stopwatch _stopwatch;
+        public Stopwatch _stopwatch;
 
         public static CommunicationManager GetInstance()
         {
@@ -46,9 +46,8 @@ namespace IPlayApp.Class
 
         public void StartTimer()
         {
-            if(!_stopwatch.IsRunning)
+            _stopwatch = _stopwatch ?? (_stopwatch = new Stopwatch());
             _stopwatch.Start();
-
         }
 
         public void ResetTimer()
