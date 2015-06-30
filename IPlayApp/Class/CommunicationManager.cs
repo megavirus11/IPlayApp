@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using IPlayApp.Webservices;
 using Xamarin.Forms;
 
 namespace IPlayApp.Class
@@ -19,7 +20,13 @@ namespace IPlayApp.Class
         public void SendData()
         {
             Debug.WriteLine(_data);
+            SendDataToApi();
             _data = null;
+        }
+
+        private async void SendDataToApi()
+        {
+            await ServiceBusApi.Send();
         }
 
         public void AddData(string data)

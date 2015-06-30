@@ -15,7 +15,7 @@ namespace IPlayApp.Pages
         private StackLayout _stackLayout;
         private Stopwatch stopwatch = new Stopwatch();
         public MenuPage(IEnumerable<Menu> menuItems)
-        {
+        {    
             Device.StartTimer(TimeSpan.FromSeconds(5), () =>
             {
                 Debug.WriteLine("test");
@@ -37,7 +37,6 @@ namespace IPlayApp.Pages
                     menuItemButton.Clicked +=
                         (sender, args) =>
                         {
-
                             CommunicationManager.GetInstance().AddData(item.Event);
                             Navigation.PushAsync(new MenuPage(item.ChildItems));
                         };
